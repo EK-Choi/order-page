@@ -13,6 +13,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
             crossorigin="anonymous"></script>
@@ -64,14 +65,35 @@
             width: 230px;
             margin: 0 auto;
         }
+
+        .rate{
+            font-size: 13px;
+        }
+
     </style>
     <script>
+        $(document).ready(function () {
+             $.ajax({
+                type: "GET",
+                url: "https://api.exchangeratesapi.io/latest?base=USD",
+                data: {},
+                success: function (response) {
+                    let currency = response['rates']['KRW']
+                    let currency_2 = currency.toFixed(2)
+                    let toKRW = currency_2*20
+
+                    $("#real_time_currency").text(currency_2)
+                    $("#inKRW").text(toKRW)
+                }
+            })
+        });
+
         function order() {
             // The order can't be completed when the value is over 10
             var qnt = document.getElementById("floatingquantities").value;
-                if(qnt<11 && qnt>0){
-                    alert('Your order has been completed!');
-                }
+            if (qnt < 11 && qnt > 0) {
+                alert('Your order has been completed!');
+            }
         }
 
         function addtobag() {
@@ -89,6 +111,7 @@
 <div class="product_name">
     <!--product name & pirce-->
     <h1>Universe 5-IV-71 #200 Poster <span class="price">price: 20 USD</span></h1>
+    <p>appox. ₩ <span id="inKRW"></span> <span class="rate">(USD-KRW: <span id="real_time_currency"></span>)</span></p>
     <!--product description-->
     <div class="accordion accordion-flush" id="accordionFlushExample">
         <div class="accordion-item">
@@ -131,18 +154,21 @@
 </div>
 
 <!--user information form-->
-<form class="userinfo" action="https://www.assignmentpoint.com/wp-content/uploads/2019/10/Thanks-for-purchase-of-software.jpg">
+<form class="userinfo"
+      action="https://www.assignmentpoint.com/wp-content/uploads/2019/10/Thanks-for-purchase-of-software.jpg">
     <!--    first name&last name grid-->
     <div class="row g-2">
         <div class="col-md">
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingfisrtname" placeholder="first name" required="required">
+                <input type="text" class="form-control" id="floatingfisrtname" placeholder="first name"
+                       required="required">
                 <label for="floatingfisrtname">Frist Name</label>
             </div>
         </div>
         <div class="col-md">
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatinglastname" placeholder="last name" required="required">
+                <input type="text" class="form-control" id="floatinglastname" placeholder="last name"
+                       required="required">
                 <label for="floatinglastname">Last Name</label>
             </div>
         </div>
